@@ -54,3 +54,33 @@ LEFT JOIN Activity t2
         AND t1.first_login = t2.event_date - 1
 ```
 **tips**: 一张表里是第一天登录的row，第二张表里是首次登陆的第二天的row，再通LEFT join合起来，select里的内容和上面一个方法一个意思。
+
+### Interview Query July 11，Exam Scores
+题目是一张表格是每个学生和四个考试成绩，column 1 student_id, column 2 student name, column 3, exam 1 score... 然后exam 2, 3, 4.要求是转化成一个学生和他的四个成绩为一row。
+``` mysql
+SELECT student_name,
+        SUM(CASE WHEN exam_id = 1 THEN score ELSE NULL END) AS exam_1,
+        SUM(CASE WHEN exam_id = 2 THEN score ELSE NULL END) AS exam_2,
+        SUM(CASE WHEN exam_id = 3 THEN score ELSE NULL END) AS exam_3,
+        SUM(CASE WHEN exam_id = 4 THEN score ELSE NULL END) AS exam_4
+FROM exam_scores
+GROUP BY student_id;
+```
+以上的方法使用了case when，因为需要每个学生在一个row里面，所以用了group by，而为了用group by，在select里面就需要用sum。
+以下是使用if的方法，其他逻辑不变。
+``` mysql
+SELECT student_name,
+  SUM(IF(exam_id=1, score, NULL)) AS exam_1,
+  SUM(IF(exam_id=2, score, NULL)) AS exam_2,
+  SUM(IF(exam_id=3, score, NULL)) AS exam_3,
+  SUM(IF(exam_id=4, score, NULL)) AS exam_4
+FROM exam_scores
+GROUP BY student_id;
+```
+### Pre-Launching Shows
+Let’s say that you are working as a data scientist at Amazon Prime Video, and they are about to launch a new show, but first want to test the launch on only 10,000 customers first
+
+How do we go about selecting the best 10,000 customers for the pre-launch?
+
+What would the process look like for pre-launching the TV show on Amazon Prime to measure how it performs?
+明天再写答案 困没呜呜

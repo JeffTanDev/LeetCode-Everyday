@@ -77,10 +77,31 @@ SELECT student_name,
 FROM exam_scores
 GROUP BY student_id;
 ```
-### Pre-Launching Shows
+### Interview Query Pre-Launching Shows
 Let’s say that you are working as a data scientist at Amazon Prime Video, and they are about to launch a new show, but first want to test the launch on only 10,000 customers first
 
 How do we go about selecting the best 10,000 customers for the pre-launch?
 
 What would the process look like for pre-launching the TV show on Amazon Prime to measure how it performs?
 明天再写答案 困没呜呜
+
+### Interview Query Empty Neighborhoods
+![alt text](image.png)
+
+``` mysql
+SELECT name
+FROM neighborhoods
+WHERE id NOT IN (
+    SELECT neighborhood_id
+    FROM users
+)
+```
+**TIPS**:上面的方法会好理解，两张表用NOT IN和一个subquery选出出现在一张图而不再第二张图的row，但是由于要query一边找出所有的id，所以不够有效率。以下的方法是用left join，应该是一个更efficient的方法。
+``` mysql
+SELECT n.name   
+FROM neighborhoods AS n 
+LEFT JOIN users AS u
+    ON n.id = u.neighborhood_id
+WHERE u.id IS NULL
+```
+LEFT JOIN会保留所有的左边表的row，在这里也就是neighborhoods。然后最后用where IS NULL来筛选出没有出现在右边表里的row。

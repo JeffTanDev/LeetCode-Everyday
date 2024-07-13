@@ -105,3 +105,15 @@ LEFT JOIN users AS u
 WHERE u.id IS NULL
 ```
 LEFT JOIN会保留所有的左边表的row，在这里也就是neighborhoods。然后最后用where IS NULL来筛选出没有出现在右边表里的row。
+
+### Interview Query Good Grades and Favorite Colors
+![alt text](image-1.png)
+``` python
+import pandas as pd
+
+def grades_colors(students_df):
+    students_df = students_df[(students_df['grade']>90) &
+        students_df['favorite_color'].isin(['red', 'green'])]
+    return students_df
+```
+**tips**:def 和 return一起，[]表示df里取一部分，()可以说明and的优先级，也是isin()调用function。

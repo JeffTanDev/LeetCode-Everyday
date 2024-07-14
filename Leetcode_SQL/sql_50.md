@@ -83,7 +83,27 @@ Let’s say that you are working as a data scientist at Amazon Prime Video, and 
 How do we go about selecting the best 10,000 customers for the pre-launch?
 
 What would the process look like for pre-launching the TV show on Amazon Prime to measure how it performs?
-明天再写答案 困没呜呜
+**Answer:**
+To select the best 10,000 customers, the first things we wanna do is to recognizing our goals. 
+**Step 1 recognizing our goals**
+    1. Test the performance of the new show, eg.user engagement, viewer number, tecnical performance...
+    2. estimate the impact of the show of the whole amazon prime users.
+   
+**Step 2 customer segmentation**
+    1. If our goal is to test the performance of the new show, to get sufficient data, we can use historical data and choose the group people who are the target customer of this type of show. Within such group of people, we would like to randomly select from the whole group to avoid any bias.
+    2. If our goal is to estimate the impact on whole prime users, we can use Strategy Sampling to make sure the sample could represent the who population.
+   
+**Step 3 A/B testing**
+    1. after selecting our sample, we could conduct a A/B test, we would divide the 10,000 selected customers into control and test groups, and we will make sure the two group are independent.
+   
+**Step 4 metrics**
+We would measure KPIs such as viewership numbers, engagement rates and technical performance. We could also conduct some survey to get some feedback.To compare the key performance indicators (KPIs) between the test group and the control group, we would use statistical tests such as z-test or t-test. These tests help us determine if there are significant differences in the metrics, providing insights into the show's potential success.
+
+Define Comparison Method:
+We would employ z-test or t-test to compare the KPIs such as viewership numbers, engagement rates, customer feedback, and technical performance between the test and control groups.
+
+    Z-test: This test is suitable when we have a large sample size (n > 30) and the population variance is known. It helps in comparing the means of two groups.
+    T-test: This test is used when the sample size is smaller (n <= 30) or the population variance is unknown. It also compares the means of two groups but is more appropriate for smaller samples.
 
 ### Interview Query Empty Neighborhoods
 ![alt text](image.png)
@@ -117,3 +137,19 @@ def grades_colors(students_df):
     return students_df
 ```
 **tips**:def 和 return一起，[]表示df里取一部分，()可以说明and的优先级，也是isin()调用function。
+
+### Interview Query Monthly Customer Report
+![alt text](image-2.png)
+``` mysql
+SELECT MONTH(created_at) AS month,
+    COUNT(DISTINCT user_id) AS num_customers,
+    COUNT(DISTINCT t.id) AS num_orders,
+    SUM(quantity*price) AS order_amt
+FROM transactions t
+LEFT JOIN products p
+    ON t.product_id = p.id
+WHERE YEAR(created_at) ='2020'
+GROUP BY 1
+```
+### Interview Query Business Days
+![alt text](image-3.png)

@@ -151,5 +151,17 @@ LEFT JOIN products p
 WHERE YEAR(created_at) ='2020'
 GROUP BY 1
 ```
-### Interview Query Business Days
-![alt text](image-3.png)
+### Interview Query Closest SAT Scores
+![alt text](image-4.png)
+``` mysql
+SELECT s1.student AS one_student,
+    s2.student AS other_student,
+    ABS(s1.score - s2.score) AS score_diff
+FROM scores s1
+INNER JOIN scores s2
+    WHERE s1.id != s2.id
+    AND s1.id < s2.id
+ORDER BY 3, 1
+LIMIT 1
+```
+

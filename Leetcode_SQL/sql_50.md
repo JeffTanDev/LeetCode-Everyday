@@ -164,4 +164,10 @@ INNER JOIN scores s2
 ORDER BY 3, 1
 LIMIT 1
 ```
+**如何cross join**
+在这道题里面，我们要找成绩相差最小的两个学生，所以我们将所有学生两两配对。INNER JOIN scores s2 WHERE s1.id != s2.id
+第二个重点，因为用上面这个方法同样两个人会出现两遍，所以用AND s1.id < s2.id来筛选出第一组，消除重复
 
+### Interview Query Estimating D
+**Question**：Given 𝑁 samples from a uniform distribution [0,𝑑], how would you estimate 𝑑?
+**Answer** Because it's uniformly distribute, average of all the sample would close to the half of d, bigger sample size, more accurate result. Thus, the answer would be 2*AVG(n)

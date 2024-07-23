@@ -171,3 +171,34 @@ LIMIT 1
 ### Interview Query Estimating D
 **Question**：Given 𝑁 samples from a uniform distribution [0,𝑑], how would you estimate 𝑑?
 **Answer** Because it's uniformly distribute, average of all the sample would close to the half of d, bigger sample size, more accurate result. Thus, the answer would be 2*AVG(n)
+
+
+### Interview Query Employee Salaries
+![alt text](image-5.png)
+``` mysql
+SELECT name AS department_name,
+        AVG(CASE WHEN salary > 100000
+            THEN 1 ELSE 0 END) AS percentage_over_100k,
+        COUNT(DISTINCT e.id) AS number_of_employees
+FROM departments d
+LEFT JOIN employees e
+    ON d.id = e.department_id
+GROUP BY 1
+HAVING COUNT(DISTINCT e.id) >= 10
+ORDER BY 2 DESC
+LIMIT 3
+```
+**tip:**最重要的一个，当要算percentage的时候，一定要想到case when，用AVG（0，1）来计算percentage。
+这里筛选id人数大于10时用了count，所以必须在group后面，所以要用having。
+
+### Interview Query Employee Salaries
+![alt text](image-6.png)
+``` mysql
+SELECT name, IFNULL(SUM(distance),0) AS distance_traveled
+FROM users u
+LEFT JOIN rides r
+    ON u.id = r.passenger_user_id
+GROUP BY u.id
+ORDER BY 2 DESC
+```
+**tips**可以注意一下这种问题怎么处理0，把null变成0会更准确。

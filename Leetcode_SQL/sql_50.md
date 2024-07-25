@@ -202,3 +202,30 @@ GROUP BY u.id
 ORDER BY 2 DESC
 ```
 **tips**可以注意一下这种问题怎么处理0，把null变成0会更准确。
+
+### 1633.Percentage of Users Attended a Contest
+``` mysql
+SELECT contest_id,
+        ROUND(COUNT(user_id)/(SELECT COUNT(user_id)
+                        FROM Users)*100, 2) AS percentage
+FROM Register
+GROUP BY 1
+ORDER BY 2 DESC, 1
+```
+**python方法**
+``` python
+total_users = users["user_id"].unique()
+
+register_grouped = (
+    register.groupby("contest_id")["user_id"]
+    .unique()
+    .reset_index(name="count_unique_users")
+)
+
+register_grouped["percentage"] = (
+    register_grouped["count_unique_users"] / total_users
+) * 100
+
+register_grouped["percentage"] = register_grouped["percentage"].round(2)
+```
+小注意事项，表里的column name要加引号。

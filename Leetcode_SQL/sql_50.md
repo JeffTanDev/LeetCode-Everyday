@@ -218,7 +218,7 @@ total_users = users["user_id"].unique()
 
 register_grouped = (
     register.groupby("contest_id")["user_id"]
-    .unique()
+    .nunique()
     .reset_index(name="count_unique_users")
 )
 
@@ -229,3 +229,83 @@ register_grouped["percentage"] = (
 register_grouped["percentage"] = register_grouped["percentage"].round(2)
 ```
 小注意事项，表里的column name要加引号。
+
+### 1211. Queries Quality and Percentage
+``` mysql
+SELECT query_name, 
+        ROUND(AVG(rating/position),2) AS quality,
+        ROUND(AVG(CASE WHEN rating < 3 THEN 1 ELSE 0 END)*100,2) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name
+```
+**方法2：用 window function**
+``` mysql
+SELECT DISTINCT query_name,
+        ROUND(AVG(rating/position) OVER(PARTITION BY query_name), 2) AS quality,
+        ROUND(AVG(CASE WHEN rating < 3 THEN 1 ELSE 0 END) OVER(PARTITION BY query_name)*100, 2) AS poor_query_percentage
+FROM Queries
+```
+### 2356. Number of Unique Subjects Taught by Each Teacher
+![alt text](image-7.png)
+``` mysql
+SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
+FROM Teacher
+GROUP BY 1
+```
+比较简单的一道sql题，可以主要练习一下pandas做法。
+``` python
+teacher_grouped = (
+    teacher.groupby("teacher_id")[subject_id]
+    .unique()
+    .reset_index(name = "cnt")
+)
+```
+**.numique**出来是count的结果，直接**unique**出来是给一个list，包含了unique的结果。
+下面是包装成function的写法：
+``` python
+def count_unique_subjects(teacher: pd.DataFrame) -> pd.DataFrame:
+    # Group by teacher_id and count the number of unique subject_ids
+    result = teacher.groupby('teacher_id')['subject_id'].nunique().reset_index()
+    result.rename(columns={'subject_id': 'cnt'}, inplace=True)
+    
+    return result
+```
+OR
+``` python
+def count_unique_subjects(teacher: pd.DataFrame) -> pd.DataFrame:
+    return teacher.groupby('teacher_id')['subject_id'].nunique().reset_index(name='cnt')
+```
+
+### 1141. User Activity for the Past 30 Days I
+![alt text](image-8.png)
+``` mysql
+SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+FROM Activity
+WHERE activity_date BETWEEN '2019-06-28' AND '2019-07-27'
+GROUP BY 1
+```
+日期30天的另一种写法：BETWEEN date_add('2019-07-27' , INTERVAL -29 DAY) and '2019-07-27'
+``` python
+import pandas as pd
+
+def user_activity(activity: pd.DataFrame) -> pd.DataFrame:
+
+    return (activity[activity
+                    .activity_date.between("2019-06-28", "2019-07-27")]
+
+                    .rename(columns = {'activity_date': 'day',
+                                       'user_id': 'active_users'})
+
+                    .groupby('day')['active_users']
+                    .nunique().reset_index())
+```
+
+### 1070. Product Sales Analysis III
+``` mysql
+SELECT product_id, year AS first_year, quantity, price
+FROM Sales
+WHERE (product_id, year) IN
+                    (SELECT product_id, MIN(year) AS year
+                    FROM Sales
+                    GROUP BY 1)
+```

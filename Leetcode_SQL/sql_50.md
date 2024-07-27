@@ -309,3 +309,37 @@ WHERE (product_id, year) IN
                     FROM Sales
                     GROUP BY 1)
 ```
+### 1045. Customers Who Bought All Products
+``` mysql
+SELECT customer_id
+FROM Customer
+GROUP BY 1
+HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(*)
+                    FROM Product)
+```
+**tip**要是题目里出现 "may contain duplicates rows"，那就加上distinct，面试的时候可以说dealing with duplicated entries first.
+
+### 1731. The Number of Employees Which Report to Each Employee
+``` mysql
+SELECT e1.employee_id, e1.name, COUNT(e2.employee_id) AS reports_count, ROUND(AVG(e2.age)) AS average_age
+FROM Employees e1
+JOIN Employees e2
+    ON e1.employee_id = e2.reports_to
+GROUP BY 1
+ORDER BY 1
+```
+只用join就只会包括出现在两张表里的数据，在这道题里就是有下属的manager，如果用left join，有没有人向他report都会出现在join之后的表里。
+
+![alt text](image-9.png)
+``` mysql
+SELECT employee_id, department_id
+FROM Employee
+WHERE primary_flag = "Y"
+    OR employee_id IN (
+        SELECT employee_id
+        FROM Employee
+        GROUP BY 1
+        HAVING COUNT(*) = 1
+    )
+```
+逻辑题

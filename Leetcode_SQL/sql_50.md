@@ -343,3 +343,39 @@ WHERE primary_flag = "Y"
     )
 ```
 逻辑题
+
+![alt text](image-10.png)
+SELECT x, y, z, CASE WHEN x+y > z AND x+z > y AND y+z >x THEN 'Yes' ELSE 'No' END AS triangle
+FROM Triangle
+不是所有题都有巧法，想不到就笨办法，做得出来再说。
+
+![alt text](image-11.png)
+``` mysql
+SELECT DISTINCT l1.num AS ConsecutiveNums
+FROM logs l1
+JOIN Logs l2
+    ON l2.id = l1.id + 1
+JOIN Logs l3
+    ON l3.id = l1.id + 2
+WHERE l1.num = l2.num AND l2.num = l3.num
+```
+**TIP**WHERE语句不能a = b = c，要a = b AND b = c！
+
+### 1164. Product Price at a Given Date
+![alt text](image-12.png)
+``` mysql
+SELECT product_id, new_price AS price
+FROM Products
+WHERE (product_id, change_date) IN (
+    SELECT product_id, MAX(change_date)
+    FROM Products
+    WHERE change_date <= '2019-08-16'
+    GROUP BY 1
+)
+UNION ALL
+SELECT product_id, 10 AS Price
+FROM Products
+GROUP BY 1
+HAVING MIN(change_date) > '2019-08-16'
+```
+**TIP**在两种完全不同的判断的情况下，要想到union all

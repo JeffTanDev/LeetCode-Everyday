@@ -379,3 +379,82 @@ GROUP BY 1
 HAVING MIN(change_date) > '2019-08-16'
 ```
 **TIP**在两种完全不同的判断的情况下，要想到union all
+
+### Last Person to Fit in the Bus
+![alt text](image-13.png)
+``` mysql
+SELECT person_name
+FROM (
+    SELECT person_name, turn, SUM(weight) OVER(ORDER BY turn) AS cum_weight
+    FROM Queue
+) tmp
+WHERE cum_weight <= 1000
+ORDER BY turn DESC
+LIMIT 1
+```
+**TIP:** Window function的sum是cumulative的，在OVER里面放上order就能按顺序cumulate。
+**TIP2:**要选择表格里最后一个，把他反过来order然后limit 1.
+
+### 1978. Count Salary Categories
+![alt text](image-14.png)
+``` mysql
+SELECT 'Low Salary' AS category, 
+       SUM(IF(income < 20000, 1, 0)) AS accounts_count
+FROM Accounts
+UNION ALL
+SELECT 'Average Salary' AS category, 
+       SUM(IF(income BETWEEN 20000 AND 50000, 1, 0)) AS accounts_count
+FROM Accounts
+UNION ALL
+SELECT 'High Salary' AS category,
+       SUM(IF(income > 50000, 1, 0)) AS accounts_count
+FROM Accounts
+```
+其实直接SUM(income < 20000) 效果是一样的
+**python做法**
+``` python
+def count_salary_categories(account: pd.DataFrame) -> pd.DataFrame:
+    return pd.DataFrame({
+        'category': ['Low Salary', 'Average Salary', 'High Salary'],
+        'account_counts':[
+            accounts[account.income < 20000].shape[0],
+            accounts[(account.income <= 20000) & (account.income <= 50000)].shape[0],
+            accounts[account.income > 50000].shape[0],
+        ],
+            })
+```
+
+这里.shape[0]作用是找到这个元组的row数，也就是起到count的作用，可以用.sum()和.count()代替。
+大括号 {}：用于定义字典。
+中括号 []：用于定义列表、进行布尔索引和访问 DataFrame 的列。
+小括号 ()：用于调用函数、明确运算优先级和定义函数及其参数。
+
+### 1978. Employees Whose Manager Left the Company
+``` python
+import pandas as pd
+
+def find_employees(employees: pd.DataFrame) -> pd.DataFrame:
+    return (
+        employees
+        [
+            ~(employees["manager_id"].isin(employees["employee_id"]))
+            & (employees["salary"] < 30000)
+        ]
+        .dropna()
+        .sort_values("employee_id")
+        [["employee_id"]]
+    )
+```
+![alt text](image-15.png)
+### 626. Exchange Seats
+``` mysql
+SELECT 
+    id,
+    CASE
+        WHEN id % 2 = 0 THEN LAG(student) OVER(ORDER BY id)
+        ELSE COALESCE(LEAD(student) OVER(ORDER BY id), student)
+    END AS student
+FROM Seat
+```
+方法1：用window function，当是偶数时，获取上一行student的值，当是奇数是，获取下一行的值，COALESCE在这里处理null，如果lead没有下一行了，就返回当前行student的值。
+``` mysql

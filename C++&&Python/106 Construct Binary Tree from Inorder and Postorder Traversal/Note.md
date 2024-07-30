@@ -39,4 +39,25 @@ TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
 
 ## Python
 ``` Python
+def traversal(self, inorder,postorder):
+    if not postorder:
+        return None
+    rootvalue=postorder[-1]
+    root=TreeNode(rootvalue)
+    if len(postorder)==1:
+        return root
+    index=inorder.index(rootvalue)
+    leftinorder=inorder[0:index]
+    rightinorder=inorder[index+1:]
+    leftpostorder=postorder[0:len(leftinorder)]
+    rightpostorder=postorder[len(leftinorder):-1]
+    root.left=self.traversal(leftinorder,leftpostorder)
+    root.right=self.traversal(rightinorder,rightpostorder)
+    return root
+
+
+def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+    if not inorder or not postorder:
+        return None
+    return self.traversal(inorder,postorder)
 ```

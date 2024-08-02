@@ -19,3 +19,8 @@ There are a few key parts to power analysis:
 **Power:** This is the chance that our study will detect a real effect. We usually aim for 80% power, meaning there's an 80% chance of finding a true effect if it exists.
 **Sample Size:** This is how many people or samples we need in our study. Power analysis helps us find the right number so our study is accurate.
 For example, if we're testing a new medicine, power analysis tells us how many patients we need to include in our study to confidently see if the medicine works.
+
+### What is K-mean and how do you select K?
+K-means is a popular clustering algorithm used in unsupervised machine learning. It aims to partition a set of data points into K clusters, where each data point belongs to the cluster with the nearest mean. The algorithm works iteratively to assign data points to clusters and update the cluster centroids until the cluster don't change much.
+
+It's not easy to get the optimal number of K. One common method is the Elbow Method, which involves running the K-means algorithm for a range of K values and plotting the within-cluster sum of squares (WCSS) or Sum of Squared Errors against K. The plot typically shows a clear 'elbow' point where the rate of decrease sharply slows, indicating the optimal K.

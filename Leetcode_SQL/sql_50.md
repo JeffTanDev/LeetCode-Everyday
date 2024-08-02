@@ -457,4 +457,50 @@ SELECT
 FROM Seat
 ```
 方法1：用window function，当是偶数时，获取上一行student的值，当是奇数是，获取下一行的值，COALESCE在这里处理null，如果lead没有下一行了，就返回当前行student的值。
+
+
+### 1341. Movie Rating
 ``` mysql
+(SELECT name AS results
+FROM Users u
+JOIN MovieRating m
+    ON u.user_id = m.user_id
+GROUP BY u.user_id
+ORDER BY COUNT(DISTINCT movie_id) DESC, 1
+LIMIT 1)
+
+UNION ALL
+
+(SELECT title AS results
+FROM Movies m
+JOIN MovieRating mr
+    ON m.movie_id = mr.movie_id
+WHERE YEAR(created_at) = '2020' 
+    AND MONTH(created_at) = 2
+GROUP BY m.movie_id
+ORDER BY AVG(rating) DESC, 1
+LIMIT 1)
+```
+tips: UNION ALL上下都要用小括号括起来！！
+
+``` python
+import pandas as pd
+
+def movie_rating(movies       : pd.DataFrame, 
+                 users        : pd.DataFrame, 
+                 movie_rating : pd.DataFrame) -> pd.DataFrame:
+
+    ratings = movie_rating.merge(users, on='user_id', how='left')
+    ratings = ratings.merge(movies, on='movie_id', how='left')
+
+    highest_user = ratings['name'].value_counts().sort_index().idxmax()
+
+    ratings_feb_2020 = ratings[(ratings['created_at'].dt.year == 2020) & 
+                               (ratings['created_at'].dt.month == 2)]
+
+    highest_movie = ratings_feb_2020.groupby('title')['rating'].mean().idxmax()
+    
+    return pd.DataFrame({'results': [highest_user, highest_movie]})
+```
+pandas:idxmax()是找到最大值的索引。ratings['name'].value_counts().sort_index()这一句代码生产了一个Series，用户的名字是索引，所以idxmax可以找到rating最多的人的名字。
+dt 是 Pandas 库中的一个属性访问器，用于处理日期和时间数据

@@ -24,3 +24,30 @@ For example, if we're testing a new medicine, power analysis tells us how many p
 K-means is a popular clustering algorithm used in unsupervised machine learning. It aims to partition a set of data points into K clusters, where each data point belongs to the cluster with the nearest mean. The algorithm works iteratively to assign data points to clusters and update the cluster centroids until the cluster don't change much.
 
 It's not easy to get the optimal number of K. One common method is the Elbow Method, which involves running the K-means algorithm for a range of K values and plotting the within-cluster sum of squares (WCSS) or Sum of Squared Errors against K. The plot typically shows a clear 'elbow' point where the rate of decrease sharply slows, indicating the optimal K.
+
+### What is feature vectors?
+Feature vectors are numerical representations of data features. In machine learning and data science, feature vectors are used to describe the attributes or characteristics of the input data. They convert the data into a numerical format that models can process.
+For example, suppose we have a database of houses, and each house has data such as area, number of bedrooms, number of bathrooms, and price. We can represent each house's data as a feature vector like area, number of bedrooms, number of bathrooms, price. Models can use these feature vectors for training and prediction.
+
+### Explain the steps in making a decision tree
+**1. Select the Best Feature:**
+Identify the feature that best splits the data. This is typically done using criteria like Gini impurity, information gain, or chi-square, which measure the purity of the resulting subsets.
+**2. Split the Data:**
+Divide the dataset into subsets based on the selected feature. Each subset should ideally have a higher purity (i.e., be more homogeneous).
+**3. Create Decision Nodes:**
+For each subset, create a decision node that represents the feature used for the split and the corresponding condition.
+**4. Repeat the Process:**
+Recursively apply steps 1-3 to each subset. Continue splitting the data and creating nodes until one of the stopping criteria is met, such as reaching a maximum tree depth, having a subset with a single class, or having a subset too small to split further.
+**5. Build Leaf Nodes:**
+Once no further splits are possible or beneficial, create leaf nodes. These nodes represent the final output or prediction for the subset of data.
+
+### explain cross-validation.
+Cross-validation is a technique used to assess the performance and generalizability of a machine learning model. It involves the following steps:
+**Split the Data:**
+Divide the dataset into multiple subsets or "folds." A common approach is k-fold cross-validation, where the data is split into k equal-sized folds.
+**Train and Validate:**
+Train the model on k−1 folds and validate it on the remaining fold. Repeat this process k times, each time using a different fold as the validation set and the rest as the training set.
+**Average the Results:**
+Calculate the performance metric (e.g., accuracy, precision, recall) for each fold and then average these results. This provides an overall performance estimate of the model.
+
+### A/B test

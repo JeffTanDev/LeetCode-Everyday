@@ -481,7 +481,7 @@ GROUP BY m.movie_id
 ORDER BY AVG(rating) DESC, 1
 LIMIT 1)
 ```
-tips: UNION ALL上下都要用小括号括起来！！
+**tips:** UNION ALL上下都要用小括号括起来！！
 
 ``` python
 import pandas as pd
@@ -502,5 +502,37 @@ def movie_rating(movies       : pd.DataFrame,
     
     return pd.DataFrame({'results': [highest_user, highest_movie]})
 ```
-pandas:idxmax()是找到最大值的索引。ratings['name'].value_counts().sort_index()这一句代码生产了一个Series，用户的名字是索引，所以idxmax可以找到rating最多的人的名字。
+**pandas:**idxmax()是找到最大值的索引。ratings['name'].value_counts().sort_index()这一句代码生产了一个Series，用户的名字是索引，所以idxmax可以找到rating最多的人的名字。
 dt 是 Pandas 库中的一个属性访问器，用于处理日期和时间数据
+
+
+### 602. Friend Requests II: Who Has the Most Friends
+``` mysql
+WITH cte AS(
+    (SELECT requester_id AS id
+    FROM RequestAccepted)
+
+    UNION ALL
+
+    (SELECT accepter_id AS id
+    FROM RequestAccepted)
+
+)
+SELECT id, COUNT(id) AS num
+FROM cte
+GROUP BY id
+ORDER BY 2 DESC
+LIMIT 1
+```
+比较复杂的问题先理解逻辑再找方法
+``` python
+import pandas as pd
+
+def most_friends(request_accepted: pd.DataFrame) -> pd.DataFrame:
+    res = pd.concat([request_accepted["requester_id"], request_accepted["accepter_id"]]).tolist()
+    r = mode(res)
+    return pd.DataFrame({"id" : [r], "num" : [res.count(r)]})
+```
+concat把两个column合并成一个series
+.tolist()把series变成一个list
+mode()获得上面list里面出现评论最高的id

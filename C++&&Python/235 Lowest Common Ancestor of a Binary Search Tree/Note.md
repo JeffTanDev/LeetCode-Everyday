@@ -1,4 +1,6 @@
 # 235. Lowest Common Ancestor of a Binary Search Tree
+![alt text](image.png)
+![alt text](image-1.png)
 
 ## 难点
 

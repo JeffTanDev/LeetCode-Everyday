@@ -77,7 +77,7 @@ SELECT student_name,
 FROM exam_scores
 GROUP BY student_id;
 ```
-### Interview Query Pre-Launching Shows
+### Interview Query Pre-Launching Shows(case简答)
 Let’s say that you are working as a data scientist at Amazon Prime Video, and they are about to launch a new show, but first want to test the launch on only 10,000 customers first
 
 How do we go about selecting the best 10,000 customers for the pre-launch?
@@ -167,11 +167,6 @@ LIMIT 1
 **如何cross join**
 在这道题里面，我们要找成绩相差最小的两个学生，所以我们将所有学生两两配对。INNER JOIN scores s2 WHERE s1.id != s2.id
 第二个重点，因为用上面这个方法同样两个人会出现两遍，所以用AND s1.id < s2.id来筛选出第一组，消除重复
-
-### Interview Query Estimating D
-**Question**：Given 𝑁 samples from a uniform distribution [0,𝑑], how would you estimate 𝑑?
-**Answer** Because it's uniformly distribute, average of all the sample would close to the half of d, bigger sample size, more accurate result. Thus, the answer would be 2*AVG(n)
-
 
 ### Interview Query Employee Salaries
 ![alt text](image-5.png)
@@ -536,3 +531,63 @@ def most_friends(request_accepted: pd.DataFrame) -> pd.DataFrame:
 concat把两个column合并成一个series
 .tolist()把series变成一个list
 mode()获得上面list里面出现评论最高的id
+
+### Interview Query Order Addresses
+SELECT SUM(CASE WHEN (shipping_address = address)
+        THEN 1
+        ELSE 0
+        END) / COUNT(*) AS home_address_percent
+FROM transactions t
+JOIN users u
+    ON t.user_id = u.id
+算比例，case when的内容要用sum加起来。
+
+### Interview Query Integer to Roman
+``` python
+roman_symbols_values = {
+        "M": 1000,
+        "CM": 900,
+        "D": 500,
+        "CD": 400,
+        "C": 100,
+        "XC": 90,
+        "L": 50,
+        "XL": 40,
+        "X": 10,
+        "IX": 9,
+        "V": 5,
+        "IV": 4,
+        "I": 1,
+    }
+
+def integer_to_roman(n):  
+    roman_numeral = ""
+    
+    for symbol, value in roman_symbols_values.items():
+        while n >= value:
+            roman_numeral += symbol
+            n -= value
+    
+    return roman_numeral
+
+def convert_integers_to_romans(nums):
+    roman_numerals = [integer_to_roman(num) for num in nums]
+    return roman_numerals
+```
+用while遍历整个dictionary， n-= value 相当于n = value-n
+### Interview Query Repeated Category Purchase
+``` mysql
+WITH cte AS
+(
+    SELECT *,
+    ROW_NUMBER() OVER (PARTITION BY product_category ORDER BY id) AS row_num
+    FROM purchases
+)
+
+SELECT product_name, CASE WHEN row_num = 1
+                    THEN 0
+                    ELSE 1
+                    END AS category_previously_purchased
+FROM cte
+```
+要熟悉写cte和window function，可以让题目简单很多。

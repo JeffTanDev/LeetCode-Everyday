@@ -591,3 +591,16 @@ SELECT product_name, CASE WHEN row_num = 1
 FROM cte
 ```
 要熟悉写cte和window function，可以让题目简单很多。
+
+### Interview Query Average Commute Time
+``` mysql
+SELECT commuter_id,
+    FLOOR(AVG(TIMESTAMPDIFF(MINUTE, start_dt, end_dt))) AS avg_commuter_time,
+    (SELECT FLOOR(AVG(TIMESTAMPDIFF(MINUTE, start_dt, end_dt)))
+    FROM rides
+    WHERE city = "NY") AS avg_time
+FROM rides
+WHERE city = "NY"
+GROUP BY commuter_id
+```
+向下取整为整数：FLOOR(),向上取整为整数CEILING()

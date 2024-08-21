@@ -39,3 +39,11 @@ We’re nearing the end of the quarter and are missing revenue expectations by 1
 Is this a good idea? Why or why not?
 
 **Answer**
+First of all, we are a Software as a Service company. And our customers are businesses, not regular consumers. Then such a form of company, when we send out purely promotional emails to our customers, the result will be relatively less effective because fewer customers will have impulse spending behavior.
+
+Since this email is not specific to any customer, customers that do not find the email relevant could unsubscribe or ignore the email totally, thereby reducing the subscriber count or email open rate. When repeated, large email blasts could degrade the performance of emails in future campaigns.
+
+A better solution is to identify specific customer groups and curate email campaigns targeted for them. For example, we can look for customers that are more inclined to purchase additional products or related products. Customers that are reaching their license limit could be sent a marketing email to sell them more licenses. We can analyze our existing customer base to see what products are commonly bought together, or in their customer lifecycle, to cross or upsell existing customers additional products. We can measure this effectiveness by analyzing click-through rates in links within the email.
+
+This revenue can be broken down into various sources, for example new, existing and churned customers. In addition to sending emails to existing subscribers, we can also consider acquiring new subscribers or emailing churned subscribers, but whatever which kind of customer they are, we have to send different emails according to the different types of customers to avoid ineffective promotion.
+![alt text](image.png)

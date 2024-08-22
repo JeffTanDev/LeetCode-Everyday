@@ -51,3 +51,7 @@ Train the model on k−1 folds and validate it on the remaining fold. Repeat thi
 Calculate the performance metric (e.g., accuracy, precision, recall) for each fold and then average these results. This provides an overall performance estimate of the model.
 
 ### A/B test
+
+
+### What is S&OP?
+

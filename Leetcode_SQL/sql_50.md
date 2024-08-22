@@ -604,3 +604,38 @@ WHERE city = "NY"
 GROUP BY commuter_id
 ```
 向下取整为整数：FLOOR(),向上取整为整数CEILING()
+
+### Interview Query Completed Shipments
+``` mysql
+SELECT shipment_id,
+        ship_date,
+        c. customer_id,
+        CASE WHEN ship_date BETWEEN membership_start_date AND membership_end_date
+        THEN "Y"
+        ELSE "N"
+        END AS is_member,
+        quantity
+FROM customers c
+JOIN shipments s
+    ON c.customer_id = s.customer_id
+```
+两个小要点，between包括了两边的数，相当于<= 和 >=。 以及JOIN = INNER JOIN.
+
+### Interview Query Second Longest Flight
+![alt text](image-16.png)
+``` mysql
+WITH cte AS(
+    SELECT *, 
+    ROW_NUMBER() OVER (PARTITION BY 
+                        LEAST(destination_location, source_location),
+                        GREATEST(destination_location, source_location)
+                        ORDER BY TIMESTAMPDIFF(SECOND, flight_start, flight_end) DESC) AS rk
+    FROM flights
+)
+SELECT id, destination_location, source_location, flight_start, flight_end
+FROM cte
+WHERE rk = 2
+```
+**FUNCTION** 在这里用到了LEAST 和 GREATEST是将City名按字母顺序排序。LEAST可以找到首字母小的，巧妙地解决pair问题。
+Rank是常规的排名，有并列后下一个会跳过，1，2，2，4。 Dense_RANK 不会跳过，顺序是连着的，1，2，2，3，3，4.
+

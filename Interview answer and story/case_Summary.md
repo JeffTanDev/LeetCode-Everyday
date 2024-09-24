@@ -47,3 +47,36 @@ A better solution is to identify specific customer groups and curate email campa
 
 This revenue can be broken down into various sources, for example new, existing and churned customers. In addition to sending emails to existing subscribers, we can also consider acquiring new subscribers or emailing churned subscribers, but whatever which kind of customer they are, we have to send different emails according to the different types of customers to avoid ineffective promotion.
 ![alt text](image.png)
+
+### Question: How you would evaluate the effect on engagement of teenage users when their parents join Facebook?
+**Clarify the Problem:** The goal is to measure whether the engagement of teenage users increases, decreases, or remains unchanged when their parents join the platform. Engagement can be measured through **key metrics** such as:
+
+Number of posts
+Interaction frequency (e.g., likes, comments, shares)
+Time spent on the platform
+
+These metrics should be tracked over a specified time period to observe any shifts in behavior.
+Observational Study Design: Since you cannot control or force parents to join Facebook, and involving users in a controlled experiment may introduce bias (if users know they are part of an experiment, they may act differently), an observational study would be the most appropriate approach. This would allow for the collection of real-world data without intervening in the natural behavior of users.
+
+Cohort Segmentation: Create two groups for comparison:
+
+Cohort 1: Teenage users whose parents have recently joined Facebook.
+Cohort 2: Teenage users whose parents are not on Facebook (or have not recently joined).
+
+**Collect data：**
+Establish a baseline for engagement metrics (e.g., posts, likes, time spent) for both cohorts before the parents join Facebook.
+Track these metrics over time (for example, one month before and three months after the parents join).
+**Control for Confounding Variables:** Ensure that the study controls for other factors that may influence teenage engagement. For example:
+
+Platform-wide changes (e.g., a new feature launch or algorithm update).
+External events (e.g., school holidays or significant social trends).
+
+Analysis: Conduct a **difference-in-differences analysis** to compare engagement changes in the two cohorts. This statistical method will help determine whether any observed changes in engagement can be attributed to parental presence, while controlling for time effects and cohort differences.
+
+Additionally, running a **regression analysis** with interaction terms can provide insights into how various factors (e.g., age, gender, and time spent on the platform) may moderate the effect of parents joining Facebook on teen engagement.
+
+### A team wants to A/B test multiple different changes through a sign-up funnel.
+
+For example, on a page, a button is currently red and at the top of the page. They want to see if changing a button from red to blue and/or from the top of the page to the bottom of the page will increase click-through.
+
+How would you set up this test?

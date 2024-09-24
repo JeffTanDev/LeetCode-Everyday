@@ -54,4 +54,19 @@ Calculate the performance metric (e.g., accuracy, precision, recall) for each fo
 
 
 ### What is S&OP?
+The S&OP process is a cross-functional activity that integrates sales, supply chain, finance, and product management to create a cohesive operational plan. The goal is to balance demand and supply in a way that supports the company’s financial, marketing, and customer service objectives
 
+typically involved several element:
+Demand Plan, Supply Plan, Integration and Collaboration, review meeting.
+
+### What are time series models? Why do we need them when we have less complicated regression models?
+Time series models are specialized statistical models designed to analyze and forecast data points that are collected over time at regular intervals. Unlike standard regression models, which assume that observations are independent, time series models account for the fact that data points in a time series are often dependent on previous values (i.e., they have autocorrelation).
+
+Key Differences and Why We Need Time Series Models:
+**Temporal Dependence:** Time series data often exhibits trends, seasonality, or patterns over time, which regression models may not handle well because they assume independence between observations. Time series models like ARIMA, Exponential Smoothing, or Seasonal Decomposition explicitly account for these temporal patterns.
+
+**Lag Features:** Time series models incorporate "lagged" values of the data, meaning they consider previous time steps when predicting future values. Regression models usually don't handle this lag structure effectively.
+
+**Stationarity:** Many time series models deal with non-stationary data (where statistical properties change over time) by transforming the data (e.g., differencing). Traditional regression models typically require stationary data to produce reliable results.
+
+**Forecasting:** Time series models are specifically designed for forecasting future data points based on historical trends, while regression models are generally used for understanding relationships between variables in a static context.

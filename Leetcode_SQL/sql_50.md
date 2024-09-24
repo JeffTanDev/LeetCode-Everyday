@@ -639,3 +639,29 @@ WHERE rk = 2
 **FUNCTION** 在这里用到了LEAST 和 GREATEST是将City名按字母顺序排序。LEAST可以找到首字母小的，巧妙地解决pair问题。
 Rank是常规的排名，有并列后下一个会跳过，1，2，2，4。 Dense_RANK 不会跳过，顺序是连着的，1，2，2，3，3，4.
 
+### 三天的moving average
+
+``` mysql
+SELECT t1.user_id,
+       t1.date,
+       ROUND((t1.steps + t2.steps + t3.steps)/3, 0) AS avg_steps
+FROM daily_steps t1
+LEFT JOIN daily_steps t2 
+	ON t1.user_id = t2.user_id
+	AND t1.date = date_add(t2.date, interval 1 DAY)
+LEFT JOIN daily_steps t3 
+	ON t1.user_id = t3.user_id
+	AND t1.date = date_add(t3.date, interval 2 DAY)
+WHERE t2.steps IS NOT NULL
+  AND t3.steps IS NOT NULL
+```
+
+### Write a function to get a sample from a standard normal distribution.
+import numpy as np
+
+``` python
+def normal_distribution_sample():
+    return np.random.normal(0, 1)
+```
+
+normal distribution with mean = 0 and standard deviation = 1.

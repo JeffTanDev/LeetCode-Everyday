@@ -665,3 +665,20 @@ def normal_distribution_sample():
 ```
 
 normal distribution with mean = 0 and standard deviation = 1.
+
+### Comments Histogram
+``` mysql
+WITH cte AS (
+    SELECT u.id, COUNT(body) AS comment_count
+    FROM users u
+    LEFT JOIN comments c
+    ON u.id = c.user_id
+	    AND c.created_at 
+	    BETWEEN '2020-01-01' AND '2020-01-31'
+    GROUP BY 1)
+
+SELECT comment_count, COUNT(*) AS frequency
+FROM cte
+GROUP BY 1
+```
+TIPS: 把本来放在where里的放入join的条件里，可以把那些0的也放进去。

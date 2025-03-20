@@ -1,6 +1,7 @@
 
 ## SQL
-### SQL Window function
+### SQL Window function 
+#### 过去三笔订单
 ![alt text](image-21.png)
 ``` sql
 SELECT order_id,
@@ -15,7 +16,14 @@ SELECT order_id,
 FROM orders
 ORDER BY order_date;
 ```
-### SQL 去重
+#### 连续活跃天数
+![alt text](image-26.png)
+```sql
+
+```
+
+### SQL数据处理
+#### 去重
 ![alt text](image-20.png)
 
 ``` SQL
@@ -30,9 +38,12 @@ SELECT *
 FROM date_rank
 WHERE rn = 1
 ```
+#### SQL 查找缺失日期
+![alt text](image-27.png)
 
 ## Python
-### Python Pandas数据处理
+### Pandas数据处理
+#### 计算均值
 ![alt text](image-19.png)
 ``` python
 import pandas as pd
@@ -46,12 +57,10 @@ df = pd.DataFrame(data)
 result = df.groupby('category', as_index=False)['value'].mean()
 ```
 
-### Python算法
-![alt text](image-18.png)
-
 
 ## Statistic
-### 统计 期望与方差
+### 统计
+#### 正态分布
 ![alt text](image-17.png)
 $$
 Z = \frac{X-\mu}{\sigma}
@@ -69,8 +78,13 @@ p1 = 1 - norm.cdf(550, mu, sigma)
 # P(450 < X < 550)
 p2 = norm.cdf(550, mu, sigma) - norm.cdf(450, mu, sigma)
 ```
+#### 泊松分布
+![alt text](image-28.png)
 
-### 贝叶斯定理
+#### 中心极限定理
+![alt text](image-29.png)
+
+#### 贝叶斯定理
 ![alt text](image-16.png)
 
 🟥我们要计算P(Disease|Positive)🟥
@@ -84,7 +98,7 @@ $P(B|A) = 95\%$  这个是P(Positive|Disease)，实际患病的人检测为阳�
 $P(B) = P(B|A)P(A) + P(B|\neg A)P(\neg A)$
 
 ## ML Modeling
-### ML 模型评估
+### 模型评估
 ![alt text](image-15.png)
 ![alt text](image-10.png)
 ![alt text](image-11.png)

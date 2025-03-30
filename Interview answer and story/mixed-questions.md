@@ -19,13 +19,22 @@ ORDER BY order_date;
 #### 连续活跃天数
 ![alt text](image-26.png)
 ```sql
+WITH cte AS(
+        SELECT user_id,
+                activity_date,
+                activity_date - INTERVAL ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY activity_date) DAY AS grouped_date
+        FROM user_activity
+);
 
+SELECT user_id, COUNT(*) AS longest_active
+FROM cte
+GROUP BY user_id, grouped_date
+ORDER BY 2 DESC
 ```
 
 ### SQL数据处理
 #### 去重
 ![alt text](image-20.png)
-
 ``` SQL
 WITH date_rank AS(
     SELECT *, RANK() OVER(
@@ -40,6 +49,11 @@ WHERE rn = 1
 ```
 #### SQL 查找缺失日期
 ![alt text](image-27.png)
+``` sql
+
+
+
+```
 
 ## Python
 ### Pandas数据处理
@@ -80,7 +94,17 @@ p2 = norm.cdf(550, mu, sigma) - norm.cdf(450, mu, sigma)
 ```
 #### 泊松分布
 ![alt text](image-28.png)
+``` python
+from scipy.stats import poisson
 
+##poisson.pmf用于计算P（x=k)
+p_15 = poisson.pmf(15, 10)
+##poisson.cdf用于计算P（x<k)
+## 因为是30分钟，所以平均值是5，因为cdf用于小于，所以 <5 就等于1 - >= 4
+p_gre_5 = 1 - poisson.cdf(4, 5)
+
+
+```
 #### 中心极限定理
 ![alt text](image-29.png)
 
